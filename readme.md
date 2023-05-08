@@ -13,6 +13,7 @@ Once you have installed Flask, you can run the app using the following command:
 ```bash
 python app.py
 ```
+The application will be listening to port **8080**.
 
 You may also configure EC2 user data with the following code
 ```bash
