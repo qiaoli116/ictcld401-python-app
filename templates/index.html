@@ -43,9 +43,10 @@
             the
             instance which processed current http requst is display above.</p>
         <div class="d-flex justify-content-center">
-            <div class="p-3"><img class="img-fluid" width="80px" src="url_for('static', filename='amazon_ec2.png')"
-                    alt=""></div>
-            <div class="p-3"><img class="img-fluid" width="100px" src="url_for('static', filename='python.png')" alt="">
+            <div class="p-3"><img class="img-fluid" width="80px"
+                    src="{{ url_for('static', filename='amazon_ec2.png') }}" alt=""></div>
+            <div class="p-3"><img class="img-fluid" width="100px" src="{{ url_for('static', filename='python.png') }}"
+                    alt="">
             </div>
         </div>
     </div>
