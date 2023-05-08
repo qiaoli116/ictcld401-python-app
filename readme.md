@@ -47,7 +47,7 @@ sudo systemctl start my_python_app.service
 sudo systemctl enable my_python_app.service
 ```
 
-This will start the Flask development server, and the app will be accessible in your web browser at http://<domain>:8080/.
+This will start the Flask development server, and the app will be accessible in your web browser at http://domain:8080/.
 
 ## Checking the Result
 If the app runs correctly, you should see a web page displayed in your web browser.
