@@ -14,6 +14,39 @@ Once you have installed Flask, you can run the app using the following command:
 python app.py
 ```
 
+You may also configure EC2 user data with the following code
+```bash
+#!/bin/bash
+sudo yum update -y
+sudo yum install -y git
+sudo yum install -y python3
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+sudo python3 get-pip.py
+sudo pip3 install flask
+cd /home/ec2-user
+rm -r /home/ec2-user/ictcld401-python-app
+git clone https://github.com/qiaoli116/ictcld401-python-app.git
+
+sudo tee /etc/systemd/system/my_python_app.service <<EOF
+[Unit]
+Description=My Flask App
+After=network.target
+
+[Service]
+User=ec2-user
+WorkingDirectory=/home/ec2-user
+ExecStart=/usr/bin/python3 /home/ec2-user/ictcld401-python-app/app.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl start my_python_app.service
+sudo systemctl enable my_python_app.service
+```
+
 This will start the Flask development server, and the app will be accessible in your web browser at http://<domain>:8080/.
 
 ## Checking the Result
