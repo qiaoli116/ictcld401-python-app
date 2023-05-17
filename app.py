@@ -1,7 +1,11 @@
 from flask import Flask, render_template
 import requests
+import configparser
 
-app = Flask(__name__)
+def loadConfiguration():
+    config = configparser.ConfigParser()
+    config.read('./config.ini')  # Replace 'config.ini' with the path to your configuration file
+    return config
 
 # Obtain a session token
 def obtainSessionToken():
@@ -23,14 +27,21 @@ def retrivePrivateIP():
     private_ip = ip_response.text
     return private_ip
 
+app = Flask(__name__)
+
+
 @app.route('/')
 def index():
-
-    
     private_ip = retrivePrivateIP()
     message = {'private_ip': private_ip}
     return render_template('index.html', message=message)
 
 if __name__ == '__main__':
+    # Call the function to load the configuration
+    config = load_configuration()
+
+    host = config.get('Server', 'host', fallback="0.0.0.0") 
+    port = config.getint('Server', 'port', fallback=8080)  
+
     # run the http server with port 8080
-    app.run(host="0.0.0.0", port=8080)
+    app.run(host=host, port=port)

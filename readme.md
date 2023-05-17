@@ -13,7 +13,7 @@ Once you have installed Flask, you can run the app using the following command:
 ```bash
 python app.py
 ```
-The application will be listening to port **8080**.
+The application will be listening to port **8080** by default.
 
 You may also configure EC2 user data with the following code
 ```bash
@@ -49,6 +49,28 @@ sudo systemctl enable my_python_app.service
 ```
 
 This will start the Flask development server, and the app will be accessible in your web browser at http://&lt;domain&gt;:8080/.
+
+## Configure the server
+When command **python app.py** is executed, the Flask web server is started using the configuration defined in the **config.ini** file, which has the following default content.
+```ini
+[Server]
+host = 0.0.0.0
+port = 8080
+```
+To apply custom configuration, you need to modify this file before launching the Flash web server. You may use one of the following method to update this file.
+ - using text editor, such as vi, vim or nano.
+ - using **sed** command. For example, to use port 8000, you could run **sed -i 's/^port\s*=\s*.*/port = 8000/' config.ini**. You may add this **sed** command to the EC2 user data, after the **git clone** command, to start the server using a different port number.
+
+```bash
+# more code
+git clone https://github.com/qiaoli116/ictcld401-python-app.git
+
+cd /home/ec2-user/ictcld401-python-app
+sed -i 's/^port\s*=\s*.*/port = 8000/' config.ini
+
+sudo tee /etc/systemd/system/my_python_app.service
+# more code
+```
 
 ## Checking the Result
 If the app runs correctly, you should see a web page displayed in your web browser.
