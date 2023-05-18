@@ -29,6 +29,10 @@ wget --output-document=python-app.zip https://github.com/qiaoli116/ictcld401-pyt
 unzip python-app.zip
 mv ictcld401-python-app-session-3-branch python-app
 
+# Modify the configuration file as you need below. Here is an example
+# cd /home/ec2-user/python-app/
+# sed -i 's/^port\s*=\s*.*/port = 8000/' config.ini
+
 sudo tee /etc/systemd/system/my_python_app.service <<EOF
 [Unit]
 Description=My Flask App
