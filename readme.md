@@ -24,9 +24,11 @@ sudo yum install -y python3
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 sudo python3 get-pip.py
 sudo pip3 install flask
-cd /home/ec2-user
-rm -r /home/ec2-user/ictcld401-python-app
-git clone https://github.com/qiaoli116/ictcld401-python-app.git
+cd /home/ec2-user/
+wget --output-document=python-app.zip https://github.com/qiaoli116/ictcld401-python-app/archive/refs/heads/session-3-branch.zip
+unzip python-app.zip
+mv ictcld401-python-app-session-3-branch python-app
+cd python-app/
 
 sudo tee /etc/systemd/system/my_python_app.service <<EOF
 [Unit]
@@ -36,7 +38,8 @@ After=network.target
 [Service]
 User=ec2-user
 WorkingDirectory=/home/ec2-user
-ExecStart=/usr/bin/python3 /home/ec2-user/ictcld401-python-app/app.py
+ExecStart=/usr/bin/python3 /home/ec2-user/python-a
+/app.py
 Restart=always
 
 [Install]
@@ -59,13 +62,16 @@ port = 8080
 ```
 To apply custom configuration, you need to modify this file before launching the Flash web server. You may use one of the following method to update this file.
  - using text editor, such as vi, vim or nano.
- - using **sed** command. For example, to use port 8000, you could run **sed -i 's/^port\s*=\s*.*/port = 8000/' config.ini**. You may add this **sed** command to the EC2 user data, after the **git clone** command, to start the server using a different port number.
+ - using **sed** command. For example, to use port 8000, you could run **sed -i 's/^port\s*=\s*.*/port = 8000/' config.ini**. You may add this **sed** command to the EC2 user data, after the program is downloaded and extracted, to start the server using a different port number.
 
 ```bash
 # more code
-git clone https://github.com/qiaoli116/ictcld401-python-app.git
+wget --output-document=python-app.zip https://github.com/qiaoli116/ictcld401-python-app/archive/refs/heads/session-3-branch.zip
+unzip python-app.zip
+mv ictcld401-python-app-session-3-branch python-app
+cd python-app/
 
-cd /home/ec2-user/ictcld401-python-app
+# modify the config.ini if needed. the following example changed the port number to 8000
 sed -i 's/^port\s*=\s*.*/port = 8000/' config.ini
 
 sudo tee /etc/systemd/system/my_python_app.service

@@ -38,7 +38,7 @@ def index():
 
 if __name__ == '__main__':
     # Call the function to load the configuration
-    config = load_configuration()
+    config = loadConfiguration()
 
     host = config.get('Server', 'host', fallback="0.0.0.0") 
     port = config.getint('Server', 'port', fallback=8080)  
