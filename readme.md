@@ -1,5 +1,5 @@
 # Flask Web App (Session 4)
-This is a simple Flask web application that displays information on the AWS EC2 server. Note this app must be running on an AWS EC2 server.
+This is a simple Flask web application that displays information of the AWS EC2 server. Note this app must be running on an AWS EC2 server.
 
 ## Getting Started
 To run the app, you must have Python 3.x and the Flask library installed on your system. You can install Flask using pip by running the following command:
