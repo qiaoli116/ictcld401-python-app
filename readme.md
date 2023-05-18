@@ -19,7 +19,6 @@ You may also configure EC2 user data with the following code
 ```bash
 #!/bin/bash
 sudo yum update -y
-sudo yum install -y git
 sudo yum install -y python3
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 sudo python3 get-pip.py
