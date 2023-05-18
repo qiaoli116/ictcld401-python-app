@@ -28,7 +28,6 @@ cd /home/ec2-user/
 wget --output-document=python-app.zip https://github.com/qiaoli116/ictcld401-python-app/archive/refs/heads/session-3-branch.zip
 unzip python-app.zip
 mv ictcld401-python-app-session-3-branch python-app
-cd python-app/
 
 sudo tee /etc/systemd/system/my_python_app.service <<EOF
 [Unit]
@@ -69,9 +68,9 @@ To apply custom configuration, you need to modify this file before launching the
 wget --output-document=python-app.zip https://github.com/qiaoli116/ictcld401-python-app/archive/refs/heads/session-3-branch.zip
 unzip python-app.zip
 mv ictcld401-python-app-session-3-branch python-app
-cd python-app/
 
 # modify the config.ini if needed. the following example changed the port number to 8000
+cd /home/ec2-user/python-app/
 sed -i 's/^port\s*=\s*.*/port = 8000/' config.ini
 
 sudo tee /etc/systemd/system/my_python_app.service
