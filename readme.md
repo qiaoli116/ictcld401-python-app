@@ -1,4 +1,4 @@
-# Flask Web App
+# Flask Web App (Session 4)
 This is a simple Flask web application that displays information on the AWS EC2 server. Note this app must be running on an AWS EC2 server.
 
 ## Getting Started
