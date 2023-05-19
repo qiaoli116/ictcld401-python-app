@@ -25,5 +25,5 @@ def init_database(endpoint, port, user, password, tableName):
         return 1
     except mysql.connector.Error as error:
         print("Error connecting to MySQL database:", error)
-        return 0
+        return None
 
