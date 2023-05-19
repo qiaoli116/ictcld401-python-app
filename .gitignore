@@ -1,0 +1,22 @@
+# Compiled Python files
+*.pyc
+__pycache__/
+
+# Environment and virtual environment files
+.env
+venv/
+.envrc
+
+# Project-specific files and directories
+*.log
+*.swp
+*.swo
+*.bak
+*.pyo
+*.pyd
+*.class
+*.pyz
+*.pyzw
+*.egg-info/
+dist/
+build/

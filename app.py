@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from lib import loadConfiguration, retrivePrivateIP
+from lib.lib import loadConfiguration, retrivePrivateIP
 
 ###################### Main ######################
 
