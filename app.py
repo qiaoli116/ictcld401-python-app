@@ -1,5 +1,6 @@
 from flask import Flask, render_template
-from lib.lib import loadConfiguration, retrivePrivateIP
+from lib.ec2_meta_data import retrive_local_ip, retrive_instance_id, retrive_public_ip
+from lib.config import load_configuration
 
 ###################### Main ######################
 
@@ -9,14 +10,21 @@ app = Flask(__name__)
 # Route to handle the landing page
 @app.route('/')
 def index():
-    private_ip = retrivePrivateIP()
-    message = {'private_ip': private_ip}
+    local_ip = retrive_local_ip()
+    public_ip = retrive_public_ip()
+    instance_id = retrive_instance_id()
+    message = {
+        'local_ip': local_ip,
+        'public_ip': public_ip,
+        'instance_id': instance_id
+    }
+    print (message)
     return render_template('index.html', message=message)
 
 
 if __name__ == '__main__':
     # Call the function to load the configuration
-    config = loadConfiguration()
+    config = load_configuration()
 
     host = config.get('Server', 'host', fallback="0.0.0.0") 
     port = config.getint('Server', 'port', fallback=8080)

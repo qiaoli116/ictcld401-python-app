@@ -16,13 +16,12 @@
             padding-top: 200px;
         }
 
-        h1,
-        p {
-            text-align: center;
-        }
-
         p {
             font-size: 20px;
+        }
+
+        .card {
+            width: 18rem;
         }
     </style>
 </head>
@@ -30,18 +29,25 @@
 <body>
     <div class="container">
 
-        <h1 class="mb-3">EC2 Private IP:<br /></h1>
-        <div class="d-flex justify-content-center mb-3">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body bg bg-primary ">
-                    <h5 class="card-title text-center text-white">{{ message.private_ip }}</h5>
+        <h1 class="mb-3 text-center">EC2</h1>
+        <p class="mb-3 text-primary text-center fw-bold">{{ message.instance_id }}</p>
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-center mb-3">
+            <div class="card m-2">
+                <div class="card-body pt-0 px-0">
+                    <h5 class="card-title text-center text-white bg bg-secondary py-2 mb-3">Local IP</h5>
+                    <p class="card-text text-center text-primary fw-bold">{{ message.local_ip }}</p>
+                </div>
+            </div>
+            <div class="card m-2">
+                <div class="card-body pt-0 px-0">
+                    <h5 class="card-title text-center text-white bg bg-secondary py-2 mb-3">Public IP</h5>
+                    <p class="card-text text-center text-primary fw-bold">{{ message.public_ip }}</p>
                 </div>
             </div>
         </div>
 
-        <p>This app is hosted on an AWS EC2 instance, or a group of EC2 instances. <br />The private ip information of
-            the
-            instance which processed current http requst is display above.</p>
+        <p class="text-center">This app is hosted on an AWS EC2 instance, or a group of EC2 instances. </p>
+        <p class="text-center">The information of the instance which processed current http requst is display above.</p>
         <div class="d-flex justify-content-center">
             <div class="p-3"><img class="img-fluid" width="80px"
                     src="{{ url_for('static', filename='amazon_ec2.png') }}" alt=""></div>
