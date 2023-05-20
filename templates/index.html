@@ -29,21 +29,18 @@
 <body>
     <div class="container">
 
-        <h1 class="mb-3 text-center">EC2</h1>
-        <p class="mb-3 text-primary text-center fw-bold">{{ message.instance_id }}</p>
+        <h2 class="mb-3 text-center">EC2 information</h2>
         <div class="d-flex flex-column flex-md-row align-items-center justify-content-center mb-3">
+
+            {% for item in data.ec2_self %}
             <div class="card m-2">
                 <div class="card-body pt-0 px-0">
-                    <h5 class="card-title text-center text-white bg bg-secondary py-2 mb-3">Local IP</h5>
-                    <p class="card-text text-center text-primary fw-bold">{{ message.local_ip }}</p>
+                    <h5 class="card-title text-center text-white bg bg-secondary py-2 mb-3">{{ item.title }}</h5>
+                    <p class="card-text text-center text-primary fw-bold">{{ item.value }}</p>
                 </div>
             </div>
-            <div class="card m-2">
-                <div class="card-body pt-0 px-0">
-                    <h5 class="card-title text-center text-white bg bg-secondary py-2 mb-3">Public IP</h5>
-                    <p class="card-text text-center text-primary fw-bold">{{ message.public_ip }}</p>
-                </div>
-            </div>
+            {% endfor %}
+
         </div>
 
         <p class="text-center">This app is hosted on an AWS EC2 instance, or a group of EC2 instances. </p>
