@@ -32,8 +32,8 @@ prompt_input "port" "$current_value"
 # Prompt for Static section value
 echo
 echo "## Configure the static assets base URI:"
-get_current_value "Static" "base_uri"
-prompt_input "base_uri" "$current_value"
+get_current_value "Static" "base_url"
+prompt_input "base_url" "$current_value"
 
 # Prompt for Database section values
 echo

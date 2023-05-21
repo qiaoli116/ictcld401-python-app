@@ -1,8 +1,8 @@
 import unittest
 import re
-from lib.ec2_meta_date import retrive_local_ip, retrive_instance_id, retrive_public_ip
+from lib.ec2_meta_data import retrive_local_ip, retrive_instance_id, retrive_public_ip
 
-class MyTestCase(unittest.TestCase):
+class EC2MetaDataUnitTest(unittest.TestCase):
     def test_retrive_local_ip(self):
         result = retrive_local_ip()
         self.assertIsNotNone(result)

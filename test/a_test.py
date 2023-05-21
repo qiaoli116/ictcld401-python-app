@@ -7,7 +7,7 @@ class TestLib(unittest.TestCase):
         # Test case for abc function
         result = abc()
         # print(result)
-        self.assertEqual(result, "Hello from abc function!")
+        self.assertEqual(result, "Hello frbc function!")
 
     def test_abc2(self):
         # Test case for abc function

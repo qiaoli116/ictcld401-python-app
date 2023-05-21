@@ -1,30 +1,32 @@
 # Flask Web App (Session 4)
 This is a simple Flask web application that displays information of the server, including
  - EC2 internal IP address
- - S3 static server base URL
-Note this app must be running on an AWS EC2 server; S3 must be created and configured correctly for all information to be successfully displayed.
+ - S3 bucket name
+ - RDS connection status
+Note this app must be running on an AWS EC2 server; S3 & RDS must be created and configured correctly for all information to be successfully displayed.
 
 ## Getting Started
 
-### Host static files in a S3 bucket
+### Host static files in S2 bucket
 An S3 bucket must be created with public access from the Internet. Everything inside the ./static folder must be uploaded to the bucket, with file name as the object key value.
 
-The base URL of the static files must be provided to the web application. 
+The base URI of the static files must be provided to the web application. 
+
+### Create a database
+A MySQL database must be created and accessable from EC2 instances that will be created below.
+
+The endpoint, database username and password must be provided to the web application.
 
 ### Host application
-To run the app, you must have Python 3.x and the pip library installed on your system. Run the following commands to install all required python dependencies:
+To run the app, you must have Python 3.x and the Flask library installed on your system. You can install Flask using pip by running the following command:
 
 ```bash
-sudo yum update -y
-sudo yum install -y python3
-curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-sudo python3 get-pip.py
-sudo pip3 install flask
-sudo pip3 install mysql-connector-python
+pip install Flask
 ```
 
 Once you have installed Flask, you edit the **config.ini** to configure this application. You must provide
- - the base URL of the static files
+ - the base URI of the static files
+ - the db endpoint, username, password
 
 You may run the **setup.sh** script to facilate the configuration process, instead of editing the **config.ini** file directly.
 
@@ -35,7 +37,7 @@ python app.py
 ```
 The application will be listening to port **8080** by default.
 
-You may also configure EC2 user data with the following code. You must confige the config.ini file with S3 information correctly in the script.
+You may also configure EC2 user data with the following code. You must confige the config.ini file with S3 and DB information correctly in the script.
 ```bash
 #!/bin/bash
 sudo yum update -y
@@ -43,7 +45,6 @@ sudo yum install -y python3
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 sudo python3 get-pip.py
 sudo pip3 install flask
-sudo pip3 install mysql-connector-python
 cd /home/ec2-user/
 wget --output-document=python-app.zip https://github.com/qiaoli116/ictcld401-python-app/archive/refs/heads/session-4-branch.zip
 unzip python-app.zip
@@ -78,18 +79,14 @@ sudo systemctl enable my_python_app.service
 
 This will start the Flask development server, and the app will be accessible in your web browser at http://&lt;domain&gt;:8080/.
 
-## Configure the app
+## Configure the server
 When command **python app.py** is executed, the Flask web server is started using the configuration defined in the **config.ini** file, which has the following default content.
 ```ini
 [Server]
 host = 0.0.0.0
 port = 8080
-
-[Static]
-base_url = none
 ```
 To apply custom configuration, you need to modify this file before launching the Flash web server. You may use one of the following method to update this file.
- - run the **./setup.sh** script to do the configuration
  - using text editor, such as vi, vim or nano.
  - using **sed** command. For example, to use port 8000, you could run **sed -i 's/^port\s*=\s*.*/port = 8000/' config.ini**. You may add this **sed** command to the EC2 user data, after the program is downloaded and extracted, to start the server using a different port number.
 
