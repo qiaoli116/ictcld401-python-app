@@ -7,17 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+
 
     <title>Demo Web App</title>
     <style>
-        body {
-            padding-top: 200px;
-        }
-
         p {
-            font-size: 20px;
+            font-size: 18px;
         }
 
         .card {
@@ -26,41 +23,90 @@
     </style>
 </head>
 
-<body>
-    <div class="container">
+<body class="bg-secondary">
+    <div class="container min-vh-100 bg-white">
+        <section class="bg-primary py-3 mb-3 text-white" style="margin-right: -12px; margin-left: -12px">
+            <h2 class="mb-3 text-center">A Python Web App</h2>
+            <p class="text-center">This app is hosted on an AWS EC2 instance, or a group of EC2 instances. </p>
+        </section>
 
-        <h2 class="mb-3 text-center">EC2 information</h2>
-        <div class="d-flex flex-column flex-md-row align-items-center justify-content-center mb-3">
+        <section>
+            <h3 class="mb-3 text-center text-primary">EC2 information</h3>
+            <p class="text-center">The information of the instance which processed current http requst is display below.
+            </p>
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-center mb-3">
 
-            {% for item in data.ec2_self %}
-            <div class="card m-2">
-                <div class="card-body pt-0 px-0">
-                    <h5 class="card-title text-center text-white bg bg-secondary py-2 mb-3">{{ item.title }}</h5>
-                    <p class="card-text text-center text-primary fw-bold">{{ item.value }}</p>
+                {% for item in data.ec2_self %}
+                <div class="card m-2">
+                    <div class="card-body pt-0 px-0">
+                        <h5 class="card-title text-center text-white bg bg-secondary py-2 mb-3">{{ item.title }}</h5>
+                        <p class="card-text text-center text-primary fw-bold">{{ item.value }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+        </section>
+
+        <hr class="hr hr-blurry my-4" />
+        <section>
+            <h3 class="mb-3 text-center text-primary">S3 static content server</h3>
+            {% if data.static_base_url is not defined or data.static_base_url is none %}
+            <p class="text-center ">Static content server is not available. Fallback to EC2 local images</p>
+            {% else %}
+            <p class="text-center ">
+                Static content server is configured. Base url is
+                <br />
+                <span class="text-info-emphasis text-decoration-underline">{{data.static_base_url}}</span>
+            </p>
+            {% endif %}
+            <p class="text-center ">Click the links below to check the URL information of the static image.</p>
+            <div class=" d-flex justify-content-center">
+
+                <div class="p-3">
+                    {% if data.static_base_url is not defined or data.static_base_url is none %}
+                    <div class="text-center mb-1"><a target="_blank"
+                            class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                            href="{{ url_for('static', filename='amazon_ec2.png') }}">Img Link</a></div>
+                    <img class="img-fluid" width="80px" src="{{ url_for('static', filename='amazon_ec2.png') }}">
+                    {% else %}
+                    <div class="text-center mb-1"><a target="_blank"
+                            class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                            href="{{data.static_base_url + '/amazon_ec2.png'}}">Img Link</a></div>
+                    <img class="img-fluid" width="80px" src="{{data.static_base_url + '/amazon_ec2.png'}}">
+                    {% endif %}
+
+                </div>
+                <div class="p-3">
+                    {% if data.static_base_url is not defined or data.static_base_url is none %}
+                    <div class="text-center mb-1"><a target="_blank"
+                            class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                            href="{{ url_for('static', filename='python.png') }}">Img Link</a></div>
+                    <img class="img-fluid" width="80px" src="{{ url_for('static', filename='python.png') }}">
+                    {% else %}
+                    <div class="text-center mb-1"><a target="_blank"
+                            class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                            href="{{data.static_base_url + '/python.png'}}">Img Link</a></div>
+                    <img class="img-fluid" width="80px" src="{{data.static_base_url + '/python.png'}}">
+                    {% endif %}
                 </div>
             </div>
-            {% endfor %}
+        </section>
+        <hr class="hr hr-blurry my-4" />
+        <section>
 
-        </div>
+        </section>
 
-        <p class="text-center">This app is hosted on an AWS EC2 instance, or a group of EC2 instances. </p>
-        <p class="text-center">The information of the instance which processed current http requst is display above.</p>
-        <div class="d-flex justify-content-center">
-            <div class="p-3"><img class="img-fluid" width="80px"
-                    src="{{ url_for('static', filename='amazon_ec2.png') }}" alt=""></div>
-            <div class="p-3"><img class="img-fluid" width="100px" src="{{ url_for('static', filename='python.png') }}"
-                    alt="">
-            </div>
-        </div>
     </div>
 
 
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src=" https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
+
 
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <!--

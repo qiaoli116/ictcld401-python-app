@@ -1,4 +1,6 @@
 import configparser
+import requests
+import re
 
 class ServerConfig:
     def __init__(self, host=None, port=None):
@@ -7,7 +9,23 @@ class ServerConfig:
 
 class StaticConfig:
     def __init__(self, base_url=None):
+        # remove trailing slash(s)
+        self.set_base_url(base_url)
+
+    def set_base_url(self, base_url):
+        if isinstance(base_url, str):
+            base_url = re.sub('/+$', '', base_url)
         self.base_url = base_url
+
+    def is_base_url_up(self):
+        try:
+            response = requests.head(self.base_url + "/test.txt")
+            #print (f"reture code {response.status_code}")
+            return response.status_code // 100 == 2 or response.status_code // 100 == 3
+        except:
+            return False
+
+
 
 class DBConfig:
     def __init__(self, endpoint=None, port=None, user=None, password=None):
@@ -33,7 +51,7 @@ class AppConfig:
         self.server_config.host = config.get('Server', 'host')
         self.server_config.port = config.getint('Server', 'port')
 
-        self.static_config.base_url = config.get('Static', 'base_url')
+        self.static_config.set_base_url(config.get('Static', 'base_url'))
 
         self.db_config.endpoint = config.get('Database', 'endpoint')
         self.db_config.port = config.getint('Database', 'port')

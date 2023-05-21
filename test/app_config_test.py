@@ -14,6 +14,10 @@ class AppConfigTest(unittest.TestCase):
         print(app_config.static_config.base_url)
         self.assertIsInstance(app_config.static_config.base_url, str)
 
+    def test_app_config_db_static_is_up(self):
+        print(app_config.static_config.is_base_url_up())
+        self.assertIsInstance(app_config.static_config.is_base_url_up(), bool)
+
     def test_app_config_db_config_endpoint(self):
         print(f"[{app_config.db_config.endpoint}]")
         self.assertIsInstance(app_config.db_config.endpoint, str)

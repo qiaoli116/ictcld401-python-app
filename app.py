@@ -12,7 +12,8 @@ app = Flask(__name__)
 def indexData():
     ec2_self = EC2Self()
     data = {
-        'ec2_self': ec2_self.ToList()
+        'ec2_self': ec2_self.ToList(),
+        'static_base_url': app_config.static_config.base_url if app_config.static_config.is_base_url_up() else None,
     }
     print(data)
     return data

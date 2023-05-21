@@ -3,10 +3,10 @@ host = 0.0.0.0
 port = 8080
 
 [Static]
-base_url = none
+base_url =    
 
 [Database]
-endpoint = none
-port = 3306
+endpoint = 
+port = 8080
 user = 
 password = 
