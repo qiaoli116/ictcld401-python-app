@@ -28,11 +28,13 @@ class StaticConfig:
 
 
 class DBConfig:
-    def __init__(self, endpoint=None, port=None, user=None, password=None):
+    def __init__(self, endpoint=None, port=None, user=None, password=None, database=None, table=None):
         self.endpoint = endpoint
         self.port = port
         self.user = user
         self.password = password
+        self.database = database
+        self.table = table
 
 class AppConfig:
     def __init__(self, config_file=None):
@@ -40,6 +42,7 @@ class AppConfig:
         self.server_config = ServerConfig()
         self.static_config = StaticConfig()
         self.db_config = DBConfig()
+        # load configuration
         self.load_configuration()
 
     def load_configuration(self):
@@ -57,3 +60,5 @@ class AppConfig:
         self.db_config.port = config.getint('Database', 'port')
         self.db_config.user = config.get('Database', 'user')
         self.db_config.password = config.get('Database', 'password')
+        self.db_config.database = config.get('Database', 'database')
+        self.db_config.table = config.get('Database', 'table')

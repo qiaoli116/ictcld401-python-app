@@ -2,11 +2,16 @@
 
 # Function to prompt the user for input and set the value
 prompt_input() {
-  read -p "$1 [$2]: " value
-  value="${value:-$2}"
-  sed -i "s|^$1\s*=.*|$1 = $value|" config.ini
-}
+  local section=$1
+  local field=$2
+  local default_value=$3
+  local value
 
+  read -p "$field [$default_value]: " value
+  value="${value:-$default_value}"
+
+  sed -i "s|^\[$section\].*$field\s*=.*|[$section]\n$field = $value|" config.ini
+}
 # Create a backup of the original INI file
 cp config.ini config.ini.backup
 
@@ -21,31 +26,30 @@ get_current_value() {
     }
     ' config.ini)
 }
-
 # Prompt for Server section values
 echo "## Configure the server:"
 get_current_value "Server" "host"
-prompt_input "host" "$current_value"
+prompt_input "Server" "host" "$current_value"
 get_current_value "Server" "port"
-prompt_input "port" "$current_value"
+prompt_input "Server" "port" "$current_value"
 
 # Prompt for Static section value
 echo
 echo "## Configure the static assets base URI:"
 get_current_value "Static" "base_url"
-prompt_input "base_url" "$current_value"
+prompt_input "Static" "base_url" "$current_value"
 
 # Prompt for Database section values
 echo
 echo "## Configure the database information:"
 get_current_value "Database" "endpoint"
-prompt_input "endpoint" "$current_value"
+prompt_input "Database" "endpoint" "$current_value"
 get_current_value "Database" "port"
-prompt_input "port" "$current_value"
+prompt_input "Database" "port" "$current_value"
 get_current_value "Database" "user"
-prompt_input "user" "$current_value"
+prompt_input "Database" "user" "$current_value"
 get_current_value "Database" "password"
-prompt_input "password" "$current_value"
+prompt_input "Database" "password" "$current_value"
 
 echo
 echo "Setup completed successfully!"

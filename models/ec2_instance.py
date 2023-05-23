@@ -23,21 +23,30 @@ class EC2Self(EC2Instance):
         super().__init__(instance_id, local_ip, public_ip)
 
 
-class EC2DB(EC2Instance):
-    def __init__(self, instance_id=None, local_ip=None, public_ip=None, current=False):
-        self.current = current
+class EC2DBItem(EC2Instance):
+    def __init__(self, instance_id=None, local_ip=None, public_ip=None, app_port=None):
+        ec2_self = EC2Self()
+        if ec2_self.instance_id == instance_id:
+            self.current = True
+        else:
+            self.current = False
+        self.app_port = app_port
         super().__init__(instance_id, local_ip, public_ip)
 
-    # convert the object to json string
-    def to_json_string(self):
-        return json.dumps(self.to_dict())
-
-    # convert the object to dict
-    def to_dict(self):
+    def to_dict_db(self):
         return {
             "instance_id": self.instance_id,
             "local_ip": self.local_ip,
             "public_ip": self.public_ip,
+            "app_port": self.app_port,
+        }
+    # convert the object to dict
+    def to_dict_view(self):
+        return {
+            "instance_id": self.instance_id,
+            "local_ip": self.local_ip,
+            "public_ip": self.public_ip,
+            "app_port": self.app_port,
             "current": self.current
         }
 

@@ -1,8 +1,6 @@
 import mysql.connector
 import requests
 import json
-import httplib2
-
 
 class AppDAL:
     def __init__(self, host, port, user, password, database, table):
@@ -207,22 +205,18 @@ class AppDAL:
     # a function retrive public ip first and then verify if http://public_ip:app_port is up
     def is_website_public_ip_up(self, instance_id, public_ip, app_port):
         #public_ip = self.retrieve_public_ip(instance_id)
-        print(f"log: is_website_public_ip_up - instance_id: {instance_id}, public ip: {public_ip}, app_port: {app_port}")
+        print(f"is_website_public_ip_up - instance_id: {instance_id}, public ip: {public_ip}, app_port: {app_port}")
         if public_ip is None:
             return False
         else:
-            http = httplib2.Http(timeout=5)
             try:
-                print(f"log: is_website_public_ip_up - try to connect to http://{public_ip}:{app_port}")
-                #response, content = http.request(f'http://{public_ip}:{app_port}', 'HEAD')
-
-                response = requests.head(f"http://{public_ip}:{app_port}", timeout=2)
+                print(f"is_website_public_ip_up - try to connect to http://{public_ip}:{app_port}")
+                response = requests.head(f"http://{public_ip}:{app_port}", timeout=1)
                 status_code = response.status_code
-                print (f"log: is_website_public_ip_up - Website is up reture code {status_code}", flush=True)
+                print (f"Website is up reture code {status_code}", flush=True)
                 return status_code // 100 == 2 or status_code // 100 == 3
-            except Exception as e:
-                print(f"log: is_website_public_ip_up - Error connecting to the website. {e}")
-                return False
+            except:
+                print("Error connecting to the website.")
         return False
 
     # loop all instances and verify if http://public_ip:app_port is up
@@ -230,19 +224,19 @@ class AppDAL:
     # use the function retrieve_all_public_ip, is_website_public_ip_up, delete_item
     def update_app_db(self):
         items = self.retrieve_all_public_ip()
-        print(f"log: update_app_db - Total items: {len(items)}")
-        print(f"log: update_app_db - items: {items}")
+        print(f"update_app_db - Total items: {len(items)}")
+        print(f"update_app_db - items: {items}")
         x = items[5]
         items[5] = items[3]
         items[3] = x
-        print(f"log: update_app_db - items again: {items}")
+        print(f"update_app_db - items again: {items}")
         for item in items:
-            print(f"log: update_app_db - {item}")
-            is_website_up = self.is_website_public_ip_up(instance_id=item["instance_id"], public_ip=item["public_ip"], app_port=8080)
-            print(f"log: update_app_db - is_website_up: {is_website_up}")
+            print(f"update_app_db - {item}")
+            is_website_up = self.is_website_public_ip_up(item["instance_id"], item["public_ip"], 8080)
+            print(f"update_app_db - is_website_up: {is_website_up}")
             if not is_website_up:
-                print(f"log: update_app_db - instance {item['instance_id']} is not up, delete it from database")
+                print(f"update_app_db - instance {item['instance_id']} is not up, delete it from database")
             #     self.delete_item(item["instance_id"])
             else:
-                print(f"log: update_app_db - instance {item['instance_id']} is up, keep it in database")
+                print(f"update_app_db - instance {item['instance_id']} is up, keep it in database")
        
