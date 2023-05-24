@@ -1,5 +1,7 @@
 import configparser
 import signal
+import argparse
+
 
 
 def set_field(file, section, field, value):
@@ -71,5 +73,22 @@ def cmd_ui():
     print("\nHere the current config file:")
     dump_file(config_file)
 
+def update_config(args):
+    config_file = 'config.ini'
+    set_field(config_file, args.section, args.field, args.value)
+    print(f"Updated config file: {config_file}")
+    print(f"Section: {args.section}")
+    print(f"Field: {args.field}")
+    print(f"New value: {args.value}")
+
 if __name__ == "__main__":
-    cmd_ui()
+    parser = argparse.ArgumentParser(description='Configuration script for the application.')
+    parser.add_argument('--section', help='Configuration section name')
+    parser.add_argument('--field', help='Configuration field name')
+    parser.add_argument('--value', help='New value for the configuration field')
+    args = parser.parse_args()
+
+    if args.section and args.field and args.value:
+        update_config(args)
+    else:
+        cmd_ui()
