@@ -18,12 +18,7 @@ sudo pip3 install flask
 sudo pip3 install mysql-connector-python
 ```
 
-Once you have installed Flask, you edit the **config.ini** to configure this application. You must provide
- - the base URL of the static files
-
-You may run the **setup.sh** script to facilate the configuration process, instead of editing the **config.ini** file directly.
-
-After the application is configured, you can run the app using the following command:
+After the dependencies are installed, start the app using the following command:
 
 ```bash
 python3 app.py
