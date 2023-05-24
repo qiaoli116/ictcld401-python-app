@@ -231,7 +231,6 @@ class AppDAL:
         if public_ip is None:
             return False
         else:
-            http = httplib2.Http(timeout=5)
             try:
                 print(f"log: is_website_public_ip_up - try to connect to http://{public_ip}:{app_port}")
                 #response, content = http.request(f'http://{public_ip}:{app_port}', 'HEAD')

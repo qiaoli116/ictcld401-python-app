@@ -22,7 +22,7 @@ class EC2MetaData:
         if item not in meta_items:
             return None
 
-        session_token = obtain_session_token()
+        session_token = EC2MetaData.obtain_session_token()
         # Build the URL to retrieve the meta data
         ITEM_URL = 'http://169.254.169.254/latest/meta-data/' + item
         # Add the session token to the header
