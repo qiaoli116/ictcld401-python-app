@@ -115,36 +115,45 @@
         <hr class="hr hr-blurry my-4" />
         <section>
             <h3 class="mb-3 text-center text-primary">EC2 Server status</h3>
+            {% if data.ec2_servers.db_connected is True %}
+            <p class="text-center">The status of all EC2 web servers is displayed below.</p>
             <table class="table mx-auto text-center" style="max-width: 700px;">
                 <thead>
                     <tr>
                         <th scope="col">Instance ID</th>
                         <th scope="col">Local IP</th>
                         <th scope="col">Public IP</th>
+                        <th scope="col">Port</th>
                         <th scope="col">Current</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {% for item in data.ec2_servers.servers %}
                     <tr>
-                        <td>i-0a12asdf1212asr212</td>
-                        <td>127.0.0.1</td>
-                        <td>3.10.23.120</td>
-                        <td></td>
+                        <td>item.instance_id</td>
+                        <td>item.local_ip</td>
+                        <td>item.public_ip</td>
+                        <td>item.app_port</td>
+                        <td>
+                            {% if item.is_current is True %}
+                            <i class="bi bi-check-lg text-primary"></i>
+                            {% else %}
+                        </td>
                     </tr>
-                    <tr class="bg-primary bg-opacity-10">
+                    {% endfor %}
+                    <!-- <tr class="bg-primary bg-opacity-10">
                         <td>i-0a1234567890abcdef</td>
                         <td>127.0.0.1</td>
                         <td>3.10.23.220</td>
+                        <td>8080</td>
                         <td><i class="bi bi-check-lg text-primary"></i></td>
-                    </tr>
-                    <tr>
-                        <td>i-0a123456789012asdz</td>
-                        <td>127.0.0.1</td>
-                        <td>3.10.23.420</td>
-                        <td></td>
-                    </tr>
+                    </tr> -->
+
                 </tbody>
             </table>
+            {% else %}
+            <p class="text-center">EC2 server status is not available. Please check the database connection.</p>
+            {% endif %}
         </section>
         <section class="bg-primary py-3 mt-5 text-white" style="margin-right: -12px; margin-left: -12px">
             <p class="fs-6 text-center m-0">&copy; 2023 Qiao Li. All rights reserved.</p>

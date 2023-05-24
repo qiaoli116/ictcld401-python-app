@@ -73,10 +73,6 @@ def indexData():
     app_dal.close_connection()
     print("app.py - ec2_servers")     
     print(ec2_servers)
-    print("\n\n\n\n\n\n\n")
-
-
-
 
     ec2_self = EC2Self()
     data = {
