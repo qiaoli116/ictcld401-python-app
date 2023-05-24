@@ -21,7 +21,8 @@ class AppDAL:
                 password=self.password,
                 host=self.host,
                 port=self.port,
-                database=None # do not connec to the database yet
+                database=None, # do not connec to the database yet
+                connect_timeout=3
             )
             print(f"Connected to the sql server: {self.host}:{self.port}")
             self.cursor = self.conn.cursor()
