@@ -51,8 +51,8 @@ def indexData():
                 app_port=app_config.server_config.port,
             )
         # create the item for current instance in db
-        print("app.py - create the item for current instance in db")
-        app_dal.create_item(item.instance_id, json.dumps(item.to_dict_db()))
+        print("app.py - create or update the item for current instance in db")
+        app_dal.create_or_update(item.instance_id, json.dumps(item.to_dict_db()))
         ec2_servers["db_connected"] = True
         ec2_servers["servers"] = []
         # update the db - delete all the items that website is down

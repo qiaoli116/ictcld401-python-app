@@ -152,6 +152,25 @@ class AppDAL:
         except mysql.connector.Error as e:
             print(f"Error deleting item: {e}")
 
+    def item_exists(self, instance_id):
+        if self.is_sql_server_connected() is False:
+            print("Sql server is not connected. Please connect to the sql server first.")
+            return None
+            
+        item = self.read_one_item(instance_id)
+        return item is not None
+
+    def create_or_update(self, instance_id, instance_info):
+        # check if self.conn is None or self.cursor is None
+        if self.is_sql_server_connected() is False:
+            print("Sql server is not connected. Please connect to the sql server first.")
+            return None
+
+        if self.item_exists(instance_id):
+            self.update_item(instance_id, instance_info)
+        else:
+            self.create_item(instance_id, instance_info)
+    
     def close_connection(self):
         try:
             if self.cursor is not None:
