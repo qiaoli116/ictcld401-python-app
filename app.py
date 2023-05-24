@@ -89,7 +89,7 @@ def indexData():
 
 @app.route('/*', methods=['HEAD'])
 def all_path_head():
-    print("############# app.py - head method ##############")
+    print("############# app.py - head method all_path_head ##############")
     # Handle HEAD request separately
     # Return a minimal response without the response body
     return '', 200
@@ -97,7 +97,9 @@ def all_path_head():
 # Route to handle the landing page
 @app.route('/', methods=['GET'])
 def index():
-    return render_template('index.html', data=indexData())
+    print(f"############# app.py - {request.method} method index ##############")
+    data = indexData()
+    return render_template('index.html', data=data)
     
 # Route to handle the api page
 @app.route('/api', methods=['GET'])
