@@ -162,23 +162,25 @@ class AppDAL:
             print(f"Error closing connection: {e}")
 
     # a function to retrive public ip of all instances from database
-    def retrieve_all_public_ip (self):
+    def retrieve_all_public_ip_app_port (self):
         # check if self.conn is None or self.cursor is None
         if self.is_sql_server_connected() is False:
             print("Sql server is not connected. Please connect to the sql server first.")
             return None
 
         try:
-            sql = f"SELECT instance_id, JSON_UNQUOTE(JSON_EXTRACT(instance_info, '$.public_ip')) as public_ip FROM {self.table}"
+            sql = f"SELECT instance_id, JSON_UNQUOTE(JSON_EXTRACT(instance_info, '$.public_ip')) as public_ip, JSON_UNQUOTE(JSON_EXTRACT(instance_info, '$.app_port')) as app_port FROM {self.table}"
             self.cursor.execute(sql)
             items = self.cursor.fetchall()
             print(f"items: {items}")
             result = []
             for item in items:
                 result.append({
-                    "instance_id": item[0],
-                    "public_ip": item[1]}
-                    )
+                        "instance_id": item[0],
+                        "public_ip": item[1],
+                        "app_port": item[2]
+                    }
+                )
             return result
         except:
             print(f"something wrong with the sql query or result")
@@ -227,9 +229,9 @@ class AppDAL:
 
     # loop all instances and verify if http://public_ip:app_port is up
     # if not up, delete the instance from database
-    # use the function retrieve_all_public_ip, is_website_public_ip_up, delete_item
+    # use the function retrieve_all_public_ip_app_port, is_website_public_ip_up, delete_item
     def update_app_db(self):
-        items = self.retrieve_all_public_ip()
+        items = self.retrieve_all_public_ip_app_port()
         print(f"log: update_app_db - Total items: {len(items)}")
         print(f"log: update_app_db - items: {items}")
         x = items[5]
@@ -242,7 +244,7 @@ class AppDAL:
             print(f"log: update_app_db - is_website_up: {is_website_up}")
             if not is_website_up:
                 print(f"log: update_app_db - instance {item['instance_id']} is not up, delete it from database")
-            #     self.delete_item(item["instance_id"])
+                self.delete_item(item["instance_id"])
             else:
                 print(f"log: update_app_db - instance {item['instance_id']} is up, keep it in database")
        
