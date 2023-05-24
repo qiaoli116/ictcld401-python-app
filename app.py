@@ -87,7 +87,6 @@ def indexData():
     print(data)
     return data
 
-@app.route('/*', methods=['HEAD'])
 
 # Route to handle the landing page
 @app.route('/', methods=['GET'])
