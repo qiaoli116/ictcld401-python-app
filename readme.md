@@ -48,7 +48,7 @@ The following information must be configured in the web application.Refer to the
  - username
  - password 
 
-## Configure the app {: #configure-the-app}
+## Configure the app
 When command **python app.py** is executed, the Flask web server is started using the configuration defined in the **config.ini** file, which has the following default content.
 ```ini
 [Server]
