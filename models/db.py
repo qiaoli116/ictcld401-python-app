@@ -253,7 +253,7 @@ class AppDAL:
         print(f"log: update_app_db - items: {items}")
         for item in items:
             print(f"log: update_app_db - {item}")
-            is_website_up = self.is_website_public_ip_up(instance_id=item["instance_id"], public_ip=item["public_ip"], app_port=8080)
+            is_website_up = self.is_website_public_ip_up(instance_id=item["instance_id"], public_ip=item["public_ip"], app_port=item["app_port"])
             print(f"log: update_app_db - is_website_up: {is_website_up}")
             if not is_website_up:
                 print(f"log: update_app_db - instance {item['instance_id']} is not up, delete it from database")
