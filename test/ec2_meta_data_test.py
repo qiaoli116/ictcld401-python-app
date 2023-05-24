@@ -1,21 +1,20 @@
 import unittest
 import re
-from lib.ec2_meta_data import retrive_local_ip, retrive_instance_id, retrive_public_ip
-
+from models.ec2_meta_data import EC2MetaData
 class EC2MetaDataUnitTest(unittest.TestCase):
     def test_retrive_local_ip(self):
-        result = retrive_local_ip()
+        result = EC2MetaData.retrive_local_ip()
         self.assertIsNotNone(result)
         self.assertIsInstance(result, str)
         self.assertTrue(self.is_valid_ipv4_address(result))
 
     def test_retrive_instance_id(self):
-        result = retrive_instance_id()
+        result = EC2MetaData.retrive_instance_id()
         self.assertIsNotNone(result)
         self.assertIsInstance(result, str)
 
     def test_retrive_public_ip(self):
-        result = retrive_public_ip()
+        result = EC2MetaData.retrive_public_ip()
         self.assertIsNotNone(result)
         self.assertIsInstance(result, str)
         self.assertTrue(self.is_valid_ipv4_address(result))

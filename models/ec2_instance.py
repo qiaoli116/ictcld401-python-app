@@ -1,4 +1,5 @@
-from lib.ec2_meta_data import retrive_local_ip, retrive_instance_id, retrive_public_ip
+#from lib.ec2_meta_data import retrive_local_ip, retrive_instance_id, retrive_public_ip
+from models.ec2_meta_data import EC2MetaData
 import json
 
 class EC2Instance:
@@ -17,9 +18,9 @@ class EC2Instance:
 
 class EC2Self(EC2Instance):
     def __init__(self):
-        instance_id = retrive_instance_id()
-        local_ip = retrive_local_ip()
-        public_ip = retrive_public_ip()
+        instance_id = EC2MetaData.retrive_instance_id()
+        local_ip = EC2MetaData.retrive_local_ip()
+        public_ip = EC2MetaData.retrive_public_ip()
         super().__init__(instance_id, local_ip, public_ip)
 
 

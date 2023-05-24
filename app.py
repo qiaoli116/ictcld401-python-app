@@ -4,7 +4,7 @@ from models.ec2_instance import EC2Instance, EC2Self
 from app_config import app_config 
 from models.db import AppDAL
 from models.ec2_instance import EC2DBItem
-from lib.ec2_meta_data import retrive_local_ip, retrive_instance_id, retrive_public_ip
+from models.ec2_meta_data import EC2MetaData
 import json
 
 
@@ -45,9 +45,9 @@ def indexData():
     if app_dal.connect_to_db() is True:
         # create the item for current instance
         item = EC2DBItem(
-                instance_id=retrive_instance_id(),
-                local_ip=retrive_local_ip(),
-                public_ip=retrive_public_ip(),
+                instance_id=EC2MetaData.retrive_instance_id(),
+                local_ip=EC2MetaData.retrive_local_ip(),
+                public_ip=EC2MetaData.retrive_public_ip(),
                 app_port=app_config.server_config.port,
             )
         # create the item for current instance in db
