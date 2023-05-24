@@ -57,6 +57,14 @@ port = 8080
 
 [Static]
 base_url = none
+
+[Database]
+endpoint = none
+port = 3306
+user = 
+password = 
+database = python_web_app
+table = ec2_servers
 ```
 To apply custom configuration, you need to modify this file before launching the Flash web server. You may use one of the following method to update this file.
  - using text editor, such as vi, vim or nano.
