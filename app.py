@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 from lib.config import load_configuration
 from models.ec2_instance import EC2Instance, EC2Self
 from app_config import app_config 
@@ -88,23 +88,39 @@ def indexData():
     return data
 
 @app.route('/*', methods=['HEAD'])
-def all_path_head():
-    print("############# app.py - head method all_path_head ##############")
-    # Handle HEAD request separately
-    # Return a minimal response without the response body
-    return '', 200
 
 # Route to handle the landing page
 @app.route('/', methods=['GET'])
 def index():
-    print(f"############# app.py - {request.method} method index ##############")
-    data = indexData()
-    return render_template('index.html', data=data)
+    print(f"############# app.py - {request.method} method / ##############")
+    if request.method == 'GET':
+        data = indexData()
+        return render_template('index.html', data=data)
+
+    elif request.method == 'HEAD':
+        # Handle HEAD request separately
+        # Return a minimal response without the response body
+        return '', 200
+    else:
+        # Handle other request methods here
+        return '', 405
+    
     
 # Route to handle the api page
 @app.route('/api', methods=['GET'])
 def api():
-    return jsonify(indexData())
+    print(f"############# app.py - {request.method} method /api ##############")
+    if request.method == 'GET':
+        data = indexData()
+        return jsonify(data)
+
+    elif request.method == 'HEAD':
+        # Handle HEAD request separately
+        # Return a minimal response without the response body
+        return '', 200
+    else:
+        # Handle other request methods here
+        return '', 405
 
 
 
