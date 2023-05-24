@@ -12,6 +12,44 @@ import json
 # Create a Flask app
 app = Flask(__name__)
 
+# todo - move this function to somewhere else
+def app_init_create_or_update_item():
+    app_dal = AppDAL(
+            host=app_config.db_config.endpoint,
+            port=app_config.db_config.port,
+            user=app_config.db_config.user,
+            password=app_config.db_config.password,
+            database=app_config.db_config.database,
+            table=app_config.db_config.table
+        )
+    app_dal.connect_to_sql_server()
+    if app_dal.is_sql_server_connected() is True:
+        print("app.py - Sql server is connected")
+        if app_dal.connect_to_db() is True:
+            print("app.py - Database is connected")
+        else:
+            print("app.py - Failed to connect to the database, init it")
+            if app_dal.init_db() is True:
+                print("app.py - Database initialized successfully")
+            else:
+                print("app.py - Failed to initialize the database")
+    else:
+        print("app.py - Failed to connect to the sql server")
+
+    if app_dal.connect_to_db() is True:
+        # create the item for current instance
+        item = EC2DBItem(
+                instance_id=EC2MetaData.retrive_instance_id(),
+                local_ip=EC2MetaData.retrive_local_ip(),
+                public_ip=EC2MetaData.retrive_public_ip(),
+                app_port=app_config.server_config.port,
+            )
+        # create the item for current instance in db
+        print("app.py - create or update the item for current instance in db")
+        app_dal.create_or_update(item.instance_id, json.dumps(item.to_dict_db()))
+    app_dal.close_connection()
+
+# todo - split and move this function to somewhere else
 # generate the data for the / page and api/
 def indexData():
     ec2_servers = {
@@ -119,6 +157,6 @@ def api():
 
 
 if __name__ == '__main__':
-
+    app_init_create_or_update_item()
     # run the http server with port 8080
     app.run(host=app_config.server_config.host, port=app_config.server_config.port)
