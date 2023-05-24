@@ -52,7 +52,7 @@ def dump_file(file):
         content = f.read()
     print(content)
 
-if __name__ == "__main__":
+def cmd_ui():
     config_file = 'config.ini'
     print (f"This script will help you configure the application.\nThe current config file is: \033[1m{config_file}\033[0m")
     print ("1. Configuring server...")
@@ -70,3 +70,6 @@ if __name__ == "__main__":
     print("##################################")
     print("\nHere the current config file:")
     dump_file(config_file)
+
+if __name__ == "__main__":
+    cmd_ui()
