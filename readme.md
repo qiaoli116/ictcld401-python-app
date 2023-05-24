@@ -82,9 +82,9 @@ sudo python3 get-pip.py
 sudo pip3 install flask
 sudo pip3 install mysql-connector-python
 cd /home/ec2-user/
-wget --output-document=python-app.zip https://github.com/qiaoli116/ictcld401-python-app/archive/refs/heads/session-4-branch.zip
+wget --output-document=python-app.zip https://github.com/qiaoli116/ictcld401-python-app/archive/refs/heads/main.zip
 unzip python-app.zip
-mv ictcld401-python-app-session-4-branch python-app
+mv ictcld401-python-app-main python-app
 
 # Uncommnet and modify the configuration file with correct values
 cd /home/ec2-user/python-app
