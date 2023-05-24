@@ -156,7 +156,7 @@ class AppDAL:
         if self.is_sql_server_connected() is False:
             print("Sql server is not connected. Please connect to the sql server first.")
             return None
-            
+
         item = self.read_one_item(instance_id)
         return item is not None
 
@@ -253,10 +253,6 @@ class AppDAL:
         items = self.retrieve_all_public_ip_app_port()
         print(f"log: update_app_db - Total items: {len(items)}")
         print(f"log: update_app_db - items: {items}")
-        x = items[5]
-        items[5] = items[3]
-        items[3] = x
-        print(f"log: update_app_db - items again: {items}")
         for item in items:
             print(f"log: update_app_db - {item}")
             is_website_up = self.is_website_public_ip_up(instance_id=item["instance_id"], public_ip=item["public_ip"], app_port=8080)
