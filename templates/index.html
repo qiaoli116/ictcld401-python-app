@@ -129,7 +129,11 @@
                 </thead>
                 <tbody>
                     {% for item in data.ec2_servers.servers %}
+                    {% if item.current %}
+                    <tr class="bg-primary bg-opacity-10">
+                        {% else %}
                     <tr>
+                        {% endif %}
                         <td>{{item.instance_id}}</td>
                         <td>{{item.local_ip}}</td>
                         <td>{{item.public_ip}}</td>
