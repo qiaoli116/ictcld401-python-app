@@ -2,7 +2,6 @@ import unittest
 from app_config import app_config
 from models.db import AppDAL
 from models.ec2_instance import EC2DBItem
-from lib.ec2_meta_data import retrive_local_ip, retrive_instance_id, retrive_public_ip
 import json
 
 class DBTest(unittest.TestCase):

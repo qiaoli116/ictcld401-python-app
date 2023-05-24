@@ -1,7 +1,7 @@
 import mysql.connector
 import requests
 
-class EC2MetaData
+class EC2MetaData:
     # Obtain a session token
     def obtain_session_token():
         # Obtain a session token from the metadata service
@@ -39,25 +39,14 @@ class EC2MetaData
             print(f"Error occurred: {e}")
             return None
 
-
-    # Retrieve the private IP address using the session token
-    def BACKUP_retrive_private_ip():
-        session_token = obtain_session_token()
-        # Retrieve the private IP address using the session token
-        PRIVATE_IP_URL = 'http://169.254.169.254/latest/meta-data/local-ipv4'
-        IP_HEADER = {'X-aws-ec2-metadata-token': session_token}
-        ip_response = requests.get(PRIVATE_IP_URL, headers=IP_HEADER)
-        private_ip = ip_response.text
-        return private_ip
-
     # Retrieve the local IP address using the session token
     def retrive_local_ip():
-        return retrieve_meta_data("local-ipv4")
+        return EC2MetaData.retrieve_meta_data("local-ipv4")
 
     # Retrieve the local IP address using the session token
     def retrive_instance_id():
-        return retrieve_meta_data("instance-id")
+        return EC2MetaData.retrieve_meta_data("instance-id")
 
     # Retrieve the local IP address using the session token
     def retrive_public_ip():
-        return retrieve_meta_data("public-ipv4")
+        return EC2MetaData.retrieve_meta_data("public-ipv4")

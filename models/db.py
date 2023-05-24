@@ -1,7 +1,6 @@
 import mysql.connector
 import requests
 import json
-import httplib2
 
 
 class AppDAL:

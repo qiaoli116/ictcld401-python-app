@@ -1,5 +1,4 @@
 from flask import Flask, render_template, jsonify, request
-from lib.config import load_configuration
 from models.ec2_instance import EC2Instance, EC2Self
 from app_config import app_config 
 from models.db import AppDAL
@@ -120,8 +119,6 @@ def api():
 
 
 if __name__ == '__main__':
-    # Call the function to load the configuration
-    config = load_configuration()
 
     # run the http server with port 8080
     app.run(host=app_config.server_config.host, port=app_config.server_config.port)
