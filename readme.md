@@ -1,4 +1,4 @@
-# Flask Web App (Session 4)
+# Flask Web App
 This is a simple Flask web application that displays information of the server, including
  - EC2 internal IP address
  - S3 static server base URL
