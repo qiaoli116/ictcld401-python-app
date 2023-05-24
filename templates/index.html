@@ -72,7 +72,8 @@
         <section>
             <h3 class="mb-3 text-center text-primary">S3 static content server</h3>
             {% if data.static_base_url is not defined or data.static_base_url is none %}
-            <p class="text-center ">Static content server is not available. Fallback to EC2 local images</p>
+            <div class="alert alert-warning text-center" role="alert">Static content server is not available. Fallback
+                to EC2 local images</div>
             {% else %}
             <p class="text-center ">
                 Static content server is configured. Base url is
@@ -116,14 +117,13 @@
         <section>
             <h3 class="mb-3 text-center text-primary">EC2 Server status</h3>
             {% if data.ec2_servers.db_connected %}
-            <p class="text-center">The status of all EC2 web servers is displayed below.</p>
+            <p class="text-center">Database connected. The status of all EC2 web servers is displayed below.</p>
             <table class="table mx-auto text-center" style="max-width: 700px;">
                 <thead>
                     <tr>
                         <th scope="col">Instance ID</th>
                         <th scope="col">Local IP</th>
-                        <th scope="col">Public IP</th>
-                        <th scope="col">Port</th>
+                        <th scope="col">Public IP:Port</th>
                         <th scope="col">Current</th>
                     </tr>
                 </thead>
@@ -136,8 +136,13 @@
                         {% endif %}
                         <td>{{item.instance_id}}</td>
                         <td>{{item.local_ip}}</td>
-                        <td>{{item.public_ip}}</td>
-                        <td>{{item.app_port}}</td>
+                        <td>{{item.public_ip}}:{{item.app_port}}
+                            <a target="_blank"
+                                class="ms-2 link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                                href="http://{{item.public_ip}}:{{item.app_port}}">
+                                <i class="bi bi-box-arrow-up-right"></i>
+                            </a>
+                        </td>
                         <td>
                             {% if item.current %}
                             <i class="bi bi-check-lg text-primary"></i>
@@ -148,15 +153,16 @@
                     <!-- <tr class="bg-primary bg-opacity-10">
                         <td>i-0a1234567890abcdef</td>
                         <td>127.0.0.1</td>
-                        <td>3.10.23.220</td>
-                        <td>8080</td>
+                        <td>3.10.23.220:8080</td>
                         <td><i class="bi bi-check-lg text-primary"></i></td>
                     </tr> -->
 
                 </tbody>
             </table>
             {% else %}
-            <p class="text-center">EC2 server status is not available. Please check the database connection.</p>
+            <div class="alert alert-warning text-center" role="alert">
+                EC2 server status is not available. Please check the database connection.
+            </div>
             {% endif %}
         </section>
         <section class="bg-primary py-3 mt-5 text-white" style="margin-right: -12px; margin-left: -12px">
