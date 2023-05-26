@@ -94,7 +94,6 @@ cd /home/ec2-user/python-app
 # python3 setup.py --section Database --field port --value <default is 3306>
 # python3 setup.py --section Database --field user --value <database user name>
 # python3 setup.py --section Database --field password --value <database password>
- 
 
 sudo tee /etc/systemd/system/my_python_app.service <<EOF
 [Unit]

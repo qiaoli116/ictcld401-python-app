@@ -8,7 +8,6 @@ import json
 import random
 import string
 
-
 ###################### Main ######################
 
 # Create a Flask app
