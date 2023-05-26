@@ -5,7 +5,8 @@ from models.db import AppDAL
 from models.ec2_instance import EC2DBItem
 from models.ec2_meta_data import EC2MetaData
 import json
-
+import random
+import string
 
 ###################### Main ######################
 
@@ -154,6 +155,22 @@ def api():
         # Handle other request methods here
         return '', 405
 
+@app.route('/loaderio-<string:suffix>/', methods=['GET'])
+def loaderio(suffix):
+    return f'loaderio-{suffix}', 200
+
+@app.route('/load', methods=['GET'])
+def load():
+    size = request.args.get('size')  # Get the value of the 'size' query parameter
+    if size is None or not size.isdigit() or int(size) <= 0:
+        size = '1'  # Set size to 1 if parameter is missing, not an integer, or <= 0
+    size_in_kb = int(size)
+    # Generate random text content of the specified size
+    content = ''.join(random.choices(string.ascii_letters + string.digits, k=size_in_kb * 1024))
+    response_data = {
+        'content': content
+    }
+    return jsonify(response_data)
 
 
 if __name__ == '__main__':

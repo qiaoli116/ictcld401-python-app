@@ -1,8 +1,9 @@
 # Flask Web App
-This is a simple Flask web application that displays information of the server, including
- - EC2 internal IP address
- - S3 static server base URL
-Note this app must be running on an AWS EC2 server; S3 must be created and configured correctly for all information to be successfully displayed.
+This is a simple Flask web application that displays information of the web server, including
+ - Current EC2 instance information
+ - S3 static server information
+ - All EC2 instances information
+Note this app must be running on an AWS EC2 server; optionally an S3 bucket can be configured as static content server and a RDS MySQL can be configured to store information of EC2 instance.
 
 ## Getting Started
 
@@ -72,7 +73,7 @@ After you changed the configuration, the app must be restarted.
 
 ## EC2 user data
 You may configure EC2 user data with the following code. You must confige the config.ini file with S3, databse information correctly in the script.
-Note: you must uncommnet and modify the **python3 setup.py** statements below
+Note: you must uncomment and modify the **python3 setup.py** statements below
 ```bash
 #!/bin/bash
 sudo yum update -y
@@ -86,14 +87,13 @@ wget --output-document=python-app.zip https://github.com/qiaoli116/ictcld401-pyt
 unzip python-app.zip
 mv ictcld401-python-app-main python-app
 
-# Uncommnet and modify the configuration file with correct values
+# Uncomment and modify the configuration file with correct values
 cd /home/ec2-user/python-app
 # python3 setup.py --section Static --field base_url --value <base url string>
 # python3 setup.py --section Database --field endpoint --value <endpoint string>
 # python3 setup.py --section Database --field port --value <default is 3306>
 # python3 setup.py --section Database --field user --value <database user name>
 # python3 setup.py --section Database --field password --value <database password>
- 
 
 sudo tee /etc/systemd/system/my_python_app.service <<EOF
 [Unit]
