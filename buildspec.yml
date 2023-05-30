@@ -1,0 +1,22 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - echo install commands - ql
+    finally:
+      - echo install finally - ql
+  pre_build:
+    commands:
+      - echo pre_build commands - ql
+    finally:
+      - echo pre_build finally - ql
+  build:
+    commands:
+      - echo build commands - ql
+    finally:
+      - echo build finally - ql
+  post_build:
+    commands:
+      - echo post_build commands - ql
+    finally:
+      - echo post_build finally - ql
