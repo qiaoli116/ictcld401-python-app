@@ -8,6 +8,9 @@ class EC2Instance:
         self.local_ip = local_ip
         self.public_ip = public_ip
 
+    def is_ec2(self):
+        return self.instance_id is not None
+        
     def to_list(self):
         return [
             {"title": "Instance ID", "value": self.instance_id},

@@ -1,0 +1,12 @@
+# Use the official Nginx image as the base image
+FROM nginx:latest
+
+# Copy the static files from the host to the container
+COPY /static /usr/share/nginx/html
+
+CMD ["nginx", "-g", "daemon off;"]
+
+# docker build -t my-static-image . -f Dockerfile.static && docker run -d -p 5000:80 --name my-static-container my-static-image
+# docker exec -it my-static-container bash
+# docker stop my-static-container && docker rm my-static-container && docker rmi my-static-image
+
