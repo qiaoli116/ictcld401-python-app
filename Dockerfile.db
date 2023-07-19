@@ -1,0 +1,14 @@
+# Use the official MySQL 8.0.33 image as the base image
+FROM mysql:8.0.33
+
+# Define a build argument for the root password
+ARG MYSQL_ROOT_PASSWORD
+
+ENV MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+# Expose port 3306 for MySQL
+EXPOSE 3306
+
+# docer command to run the command to create the database
+# export MYSQL_ROOT_PASSWORD=root && docker build -t my-db-image --build-arg MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD -f Dockerfile.db . && docker run -d -p 3306:3306 --name my-db-container my-db-image
+# docker exec -it my-db-container mysql -u root -p
+# docker stop my-db-container && docker rm my-db-container && docker rmi my-db-image && unset MYSQL_ROOT_PASSWORD

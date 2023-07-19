@@ -1,12 +1,15 @@
 from flask import Flask, render_template, jsonify, request
 from models.ec2_instance import EC2Instance, EC2Self
-from app_config import app_config 
+#from app_config import app_config 
 from models.db import AppDAL
 from models.ec2_instance import EC2DBItem
 from models.ec2_meta_data import EC2MetaData
 import json
 import random
 import string
+
+from models.config import AppConfig 
+app_config = AppConfig("config.ini")
 
 ###################### Main ######################
 
@@ -114,6 +117,7 @@ def indexData():
 
     ec2_self = EC2Self()
     data = {
+        'is_ec2': ec2_self.is_ec2(),
         'ec2_self': ec2_self.to_list(),
         'static_base_url': app_config.static_config.base_url if app_config.static_config.is_base_url_up() else None,
         'ec2_servers': ec2_servers
@@ -140,7 +144,7 @@ def index():
     
     
 # Route to handle the api page
-@app.route('/api', methods=['GET'])
+@app.route('/api', methods=['GET', 'HEAD'])
 def api():
     print(f"############# app.py - {request.method} method /api ##############")
     if request.method == 'GET':
@@ -154,6 +158,62 @@ def api():
     else:
         # Handle other request methods here
         return '', 405
+
+
+@app.route('/api/configuration', methods=['GET', 'POST', 'HEAD'])
+def configuration_route():
+    print(f"############# app.py - {request.method} method /api/configuration ##############")
+    if request.method == 'POST':
+
+        # get the section, field, value from the json body of request
+        section = request.json.get('section', None)
+        field = request.json.get('field', None)
+        value = request.json.get('value', None)
+        found = False
+
+        # the value of section, field, value must be string
+        if isinstance(section, str) and isinstance(field, str) and isinstance(value, str):
+            if section.lower() == "static":
+                if field.lower() == "base_url":
+                    app_config.save_configuration_static_base_url(value)
+                    found = True
+            elif section.lower() == "database":
+                if field.lower() == "endpoint":
+                    app_config.save_configuration_db_endpoint(value)
+                    found = True
+                elif field.lower() == "port":
+                    app_config.save_configuration_db_port(value)
+                    found = True
+                elif field.lower() == "user":
+                    app_config.save_configuration_db_user(value)
+                    found = True
+                elif field.lower() == "password":
+                    app_config.save_configuration_db_password(value)
+                    found = True
+
+        app_config.load_configuration()
+        return jsonify(
+            {
+                "found": found,
+                "config": app_config.to_dict()
+            })
+
+    elif request.method == 'GET':
+        app_config.load_configuration()
+        print(app_config.to_dict())
+        return jsonify(app_config.to_dict())
+
+    elif request.method == 'HEAD':
+        # Handle HEAD request separately
+        # Return a minimal response without the response body
+        return '', 200
+    else:
+        # Handle other request methods here
+        return '', 405
+    # Process the key and value as needed
+    # ...
+    
+
 
 @app.route('/loaderio-<string:suffix>/', methods=['GET'])
 def loaderio(suffix):
@@ -171,6 +231,7 @@ def load():
         'content': content
     }
     return jsonify(response_data)
+
 
 
 if __name__ == '__main__':

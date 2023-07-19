@@ -54,8 +54,11 @@
             <h3 class="mb-3 text-center text-primary">EC2 information</h3>
             <p class="text-center">The information of the instance which processed current http requst is display below.
             </p>
+            {% if data.is_ec2 == False %}
+            <div class="alert alert-warning text-center" role="alert">Failed to retrieve EC2 id. If error persists,
+                check if the server is a AWS EC2 instance.</div>
+            {% endif %}
             <div class="d-flex flex-column flex-md-row align-items-center justify-content-center mb-3">
-
                 {% for item in data.ec2_self %}
                 <div class="card m-2">
                     <div class="card-body pt-0 px-0">
